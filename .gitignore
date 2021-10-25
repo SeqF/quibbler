@@ -30,3 +30,6 @@ gen/
 ### LOGS ###
 logs/
 *.log
+
+### Sonarlint ###
+/sonarlint/
