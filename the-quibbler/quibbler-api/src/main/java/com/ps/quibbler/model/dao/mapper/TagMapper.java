@@ -2,6 +2,7 @@ package com.ps.quibbler.model.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ps.quibbler.model.entity.Tag;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,5 +16,7 @@ public interface TagMapper extends BaseMapper<Tag> {
      * @param articleId
      * @return TagList
      */
-    List<Tag> getTagListByArticleId(String articleId);
+    List<Tag> getTagListByArticleId(@Param("articleId") String articleId);
+
+    List<String> getHotTagIds(int limit);
 }

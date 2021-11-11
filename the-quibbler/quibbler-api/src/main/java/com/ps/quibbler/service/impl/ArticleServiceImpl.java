@@ -10,7 +10,10 @@ import com.ps.quibbler.model.entity.Article;
 import com.ps.quibbler.model.entity.base.BaseEntity;
 import com.ps.quibbler.model.vo.ArticleVO;
 import com.ps.quibbler.service.ArticleService;
+import com.ps.quibbler.service.SysUserService;
+import com.ps.quibbler.service.TagService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,11 +25,16 @@ import java.util.Arrays;
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
+    @Autowired
+    private TagService tagService;
+    @Autowired
+    private SysUserService sysUserService;
+
     @Resource
     ArticleMapper articleMapper;
 
     @Override
-    public IPage<ArticleVO> getPageList(PageParams pageParams) {
+    public IPage<ArticleVO> getArticlePageList(PageParams pageParams) {
 
         Page<Article> page = new Page<>(pageParams.getPageNum(), pageParams.getPageSize());
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
@@ -36,6 +44,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return articlePage.convert(article -> {
             ArticleVO articleVO = new ArticleVO();
             BeanUtils.copyProperties(article, articleVO);
+            articleVO.setTagList(tagService.getTagListByArticleId(article.getId()));
+            articleVO.setAuthor(sysUserService.getById(article.getAuthorId()).getUsername());
             return articleVO;
         });
     }

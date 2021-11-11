@@ -3,5 +3,15 @@
 <mapper namespace="com.ps.quibbler.model.dao.mapper.TagMapper">
 
 
+    <select id="getTagListByArticleId" resultType="com.ps.quibbler.model.entity.Tag">
+        SELECT id, tag_name AS tagName
+        FROM t_tag
+        WHERE id in
+              (SELECT tag_id from t_article_tag WHERE article_id = #{articleId})
+    </select>
 
+    <select id="getHotTagIds" resultType="java.lang.String">
+        SELECT id
+        FROM t_
+    </select>
 </mapper>

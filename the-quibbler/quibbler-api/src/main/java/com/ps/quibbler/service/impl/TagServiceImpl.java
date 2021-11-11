@@ -17,6 +17,11 @@ import java.util.stream.Collectors;
 @Service
 public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
 
+    /**
+     * getTagListByArticleId
+     * @param articleId
+     * @return
+     */
     @Override
     public List<TagVO> getTagListByArticleId(String articleId) {
         List<Tag> tagList = baseMapper.getTagListByArticleId(articleId);
@@ -25,5 +30,11 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
             BeanUtils.copyProperties(tag, tagVO);
             return tagVO;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TagVO> getHotTags(int limit) {
+        baseMapper.getHotTagIds(limit);
+        return null;
     }
 }

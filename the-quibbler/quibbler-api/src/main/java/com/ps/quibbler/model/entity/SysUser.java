@@ -1,14 +1,17 @@
 package com.ps.quibbler.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ps.quibbler.model.entity.base.BaseEntity;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 /**
  * @author ps
  */
 @Data
-public class SysUser {
-
-    private Long id;
+public class SysUser extends BaseEntity {
 
     private String account;
 
@@ -16,17 +19,17 @@ public class SysUser {
 
     private String avatar;
 
-    private Long createDate;
-
     private Integer deleted;
 
     private String email;
 
-    private Long lastLogin;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime lastLogin;
 
     private String mobile;
 
-    private String nickname;
+    private String username;
 
     private String password;
 

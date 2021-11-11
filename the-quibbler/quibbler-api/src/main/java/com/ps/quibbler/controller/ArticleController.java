@@ -21,6 +21,6 @@ public class ArticleController {
 
     @PostMapping
     public Result listArticle(@RequestBody PageParams pageParams) {
-        return Result.successWithData(articleService.getPageList(pageParams));
+        return Result.successWithData(articleService.getArticlePageList(pageParams));
     }
 }

@@ -16,5 +16,5 @@ public interface ArticleService extends IService<Article> {
      * @param pageParams
      * @return
      */
-    IPage<ArticleVO> getPageList(PageParams pageParams);
+    IPage<ArticleVO> getArticlePageList(PageParams pageParams);
 }

@@ -18,4 +18,10 @@ public interface TagService extends IService<Tag> {
      */
     List<TagVO> getTagListByArticleId(String articleId);
 
+    /**
+     * getHotTags
+     * @param limit
+     * @return
+     */
+    List<TagVO> getHotTags(int limit);
 }

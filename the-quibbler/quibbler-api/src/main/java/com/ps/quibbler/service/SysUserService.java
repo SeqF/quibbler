@@ -7,5 +7,4 @@ import com.ps.quibbler.model.entity.SysUser;
  * @author Paksu
  */
 public interface SysUserService extends IService<SysUser> {
-
 }

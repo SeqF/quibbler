@@ -15,9 +15,9 @@ public class Article extends BaseEntity {
 
     private String summary;
 
-    private Integer commentCounts;
+    private Integer commentCount;
 
-    private Integer viewCounts;
+    private Integer viewCount;
 
     private Long authorId;
 

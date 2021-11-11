@@ -9,4 +9,5 @@ import lombok.Data;
 @Data
 public class TagVO extends BaseVO {
 
+    private String tagName;
 }
