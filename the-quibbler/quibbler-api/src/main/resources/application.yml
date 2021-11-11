@@ -5,9 +5,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://42.194.198.128:3306/quibbler?serverTimezone=GMT&useUnicode=true&characterEncoding=utf8
-    username: ***REMOVED***
-    password: ***REMOVED***
+    url: jdbc:mysql://xxx/quibbler?serverTimezone=GMT&useUnicode=true&characterEncoding=utf8
+    username: xxx
+    password: xxx 
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 
@@ -17,5 +17,5 @@ mybatis-plus:
     map-underscore-to-camel-case: true
   global-config:
     db-config:
-      table-prefix: tbl_
+      table-prefix: t_
   mapper-locations: classpath*:/mapper/**Mapper.xml
