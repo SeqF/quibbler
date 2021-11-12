@@ -1,6 +1,6 @@
 package com.ps.quibbler.model.entity;
 
-import com.ps.quibbler.model.entity.base.BaseEntity;
+import com.ps.quibbler.base.BaseEntity;
 import lombok.Data;
 
 import static com.ps.quibbler.global.Constants.ARTICLE_COMMON;

@@ -1,4 +1,4 @@
-package com.ps.quibbler.model.entity.base;
+package com.ps.quibbler.base;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;

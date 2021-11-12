@@ -1,6 +1,6 @@
 package com.ps.quibbler.model.vo;
 
-import com.ps.quibbler.model.vo.base.BaseVO;
+import com.ps.quibbler.base.BaseVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

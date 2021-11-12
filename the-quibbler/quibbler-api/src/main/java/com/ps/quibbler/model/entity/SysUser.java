@@ -1,7 +1,7 @@
 package com.ps.quibbler.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ps.quibbler.model.entity.base.BaseEntity;
+import com.ps.quibbler.base.BaseEntity;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

@@ -18,5 +18,10 @@ public interface TagMapper extends BaseMapper<Tag> {
      */
     List<Tag> getTagListByArticleId(@Param("articleId") String articleId);
 
+    /**
+     * getHotTagIds
+     * @param limit
+     * @return
+     */
     List<String> getHotTagIds(int limit);
 }

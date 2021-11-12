@@ -8,6 +8,7 @@ import com.ps.quibbler.service.TagService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,9 +33,22 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         }).collect(Collectors.toList());
     }
 
+    /**
+     * getHotTags
+     * @param limit
+     * @return
+     */
     @Override
     public List<TagVO> getHotTags(int limit) {
-        baseMapper.getHotTagIds(limit);
-        return null;
+        List<String> hotTagIds = baseMapper.getHotTagIds(limit);
+        if (hotTagIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<Tag> tagList = baseMapper.selectBatchIds(hotTagIds);
+        return tagList.stream().map(tag -> {
+            TagVO tagVO = new TagVO();
+            BeanUtils.copyProperties(tag, tagVO);
+            return tagVO;
+        }).collect(Collectors.toList());
     }
 }

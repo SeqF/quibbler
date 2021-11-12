@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ps.quibbler.model.dao.mapper.ArticleMapper;
 import com.ps.quibbler.model.dto.PageParams;
 import com.ps.quibbler.model.entity.Article;
-import com.ps.quibbler.model.entity.base.BaseEntity;
+import com.ps.quibbler.base.BaseEntity;
 import com.ps.quibbler.model.vo.ArticleVO;
 import com.ps.quibbler.service.ArticleService;
 import com.ps.quibbler.service.SysUserService;

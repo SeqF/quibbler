@@ -11,7 +11,8 @@
     </select>
 
     <select id="getHotTagIds" resultType="java.lang.String">
-        SELECT id
-        FROM t_
+        SELECT tag_id
+        FROM t_article_tag
+        GROUP BY count(*) desc limit #{limit}
     </select>
 </mapper>
