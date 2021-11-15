@@ -1,11 +1,11 @@
 package com.ps.quibbler.global;
 
 import com.ps.quibbler.base.BaseException;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +16,7 @@ public class ErrorResponse {
     private int status;
     private String message;
     private String path;
-    private Instant timestamp;
+    private String time;
     private Map<String, Object> data = new HashMap<>();
 
     public ErrorResponse(BaseException exception, String path) {
@@ -28,7 +28,7 @@ public class ErrorResponse {
         this.status = status;
         this.message = message;
         this.path = path;
-        this.timestamp = Instant.now();
+        this.time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         if (!ObjectUtils.isEmpty(data)) {
             this.data.putAll(data);
         }
