@@ -5,9 +5,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://xxx/quibbler?serverTimezone=GMT&useUnicode=true&characterEncoding=utf8
-    username: xxx
-    password: xxx 
+    url: jdbc:mysql://42.194.198.128:3306/quibbler?serverTimezone=GMT&useUnicode=true&characterEncoding=utf8
+    username: ***REMOVED***
+    password: ***REMOVED***
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 
@@ -19,3 +19,10 @@ mybatis-plus:
     db-config:
       table-prefix: t_
   mapper-locations: classpath*:/mapper/**Mapper.xml
+
+
+jwt:
+  header: Authorization
+  expire: 604800
+  secret: ***REMOVED***
+  prefix: Bearer

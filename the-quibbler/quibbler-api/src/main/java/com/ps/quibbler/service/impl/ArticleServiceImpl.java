@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ps.quibbler.model.dao.mapper.ArticleMapper;
 import com.ps.quibbler.model.dto.PageParams;
 import com.ps.quibbler.model.entity.Article;
-import com.ps.quibbler.base.BaseEntity;
 import com.ps.quibbler.model.vo.ArticleVO;
 import com.ps.quibbler.service.ArticleService;
 import com.ps.quibbler.service.SysUserService;
@@ -18,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Paksu
@@ -39,7 +40,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Page<Article> page = new Page<>(pageParams.getPageNum(), pageParams.getPageSize());
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
         // order by weight(top),createdTime(default)
-        queryWrapper.orderByDesc(Arrays.asList(Article::getWeight, BaseEntity::getCreatedTime));
+        queryWrapper.orderByDesc(Arrays.asList(Article::getWeight, Article::getCreatedTime));
         Page<Article> articlePage = baseMapper.selectPage(page, queryWrapper);
         return articlePage.convert(article -> {
             ArticleVO articleVO = new ArticleVO();
@@ -48,6 +49,36 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             articleVO.setAuthor(sysUserService.getById(article.getAuthorId()).getUsername());
             return articleVO;
         });
+    }
+
+    @Override
+    public List<ArticleVO> getHotArticles(int limit) {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.orderByDesc(Article::getViewCount);
+        queryWrapper.select(Article::getId, Article::getTitle);
+        queryWrapper.last("limit " + limit);
+        //select id,title from article order by view_counts desc limit 5
+        List<Article> articleList = baseMapper.selectList(queryWrapper);
+        return articleList.stream().map(article -> {
+            ArticleVO articleVO = new ArticleVO();
+            BeanUtils.copyProperties(article, articleVO);
+            return articleVO;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ArticleVO> getNewArticles(int limit) {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.orderByDesc(Article::getCreatedTime);
+        queryWrapper.select(Article::getId, Article::getTitle);
+        queryWrapper.last("limit " + limit);
+        //select id,title from article order by created_time desc limit 5
+        List<Article> articleList = baseMapper.selectList(queryWrapper);
+        return articleList.stream().map(article -> {
+            ArticleVO articleVO = new ArticleVO();
+            BeanUtils.copyProperties(article, articleVO);
+            return articleVO;
+        }).collect(Collectors.toList());
     }
 
 }

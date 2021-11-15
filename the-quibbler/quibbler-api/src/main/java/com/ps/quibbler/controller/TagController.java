@@ -4,6 +4,7 @@ import com.ps.quibbler.enums.ErrorCodeEnum;
 import com.ps.quibbler.exception.QuibblerException;
 import com.ps.quibbler.global.Result;
 import com.ps.quibbler.service.TagService;
+import com.ps.quibbler.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +21,12 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @GetMapping("/hot")
     public Result getHotTag() {
         int limit = 6;
         return Result.successWithData(tagService.getHotTags(limit));
     }
-
 }

@@ -23,4 +23,16 @@ public class ArticleController {
     public Result listArticle(@RequestBody PageParams pageParams) {
         return Result.successWithData(articleService.getArticlePageList(pageParams));
     }
+
+    @PostMapping("/hot")
+    public Result getHotArticles() {
+        int limit = 5;
+        return Result.successWithData(articleService.getHotArticles(limit));
+    }
+
+    @PostMapping("/new")
+    public Result getNewArticles() {
+        int limit = 5;
+        return Result.successWithData(articleService.getNewArticles(limit));
+    }
 }
