@@ -9,6 +9,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Paksu
+ */
 @Data
 public class ErrorResponse {
 
@@ -23,7 +26,7 @@ public class ErrorResponse {
         this(exception.getErrorCode().getCode(), exception.getErrorCode().getStatus().value(), exception.getErrorCode().getMessage(), path, exception.getData());
     }
 
-    public ErrorResponse(int code, int status, String message, String path, HashMap<String, Object> data) {
+    public ErrorResponse(int code, int status, String message, String path, Map<String, Object> data) {
         this.errorCode = code;
         this.status = status;
         this.message = message;

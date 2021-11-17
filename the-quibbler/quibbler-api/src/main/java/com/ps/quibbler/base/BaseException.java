@@ -16,12 +16,17 @@ public abstract class BaseException extends RuntimeException {
     private final ErrorCodeEnum errorCode;
     private final HashMap<String, Object> data = new HashMap<>();
 
-    public BaseException(ErrorCodeEnum errorCode, Map<String,Object> data) {
+    protected BaseException(ErrorCodeEnum errorCode, Map<String,Object> data) {
         super(errorCode.getMessage());
         this.errorCode = errorCode;
         if (!ObjectUtils.isEmpty(data)) {
             this.data.putAll(data);
         }
+    }
+
+    protected BaseException(ErrorCodeEnum errorCode) {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
     }
 
     protected BaseException(ErrorCodeEnum errorCode, Map<String, Object> data, Throwable cause) {

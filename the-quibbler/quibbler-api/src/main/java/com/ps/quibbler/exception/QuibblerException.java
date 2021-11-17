@@ -5,9 +5,12 @@ import com.ps.quibbler.enums.ErrorCodeEnum;
 
 import java.util.Map;
 
+/**
+ * @author Paksu
+ */
 public class QuibblerException extends BaseException {
 
-    public QuibblerException(ErrorCodeEnum errorCode,Map<String, Object> data) {
-        super(errorCode, data);
+    public QuibblerException(ErrorCodeEnum errorCode) {
+        super(errorCode);
     }
 }
