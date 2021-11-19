@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.ps.quibbler.enums.ErrorCodeEnum;
 import com.ps.quibbler.exception.QuibblerException;
 import com.ps.quibbler.model.dto.SysUserLoginParam;
+import com.ps.quibbler.model.dto.SysUserRegisterParam;
 import com.ps.quibbler.model.entity.SysUser;
 import com.ps.quibbler.service.LoginService;
 import com.ps.quibbler.service.SysUserService;
@@ -42,7 +43,7 @@ public class LoginServiceImpl implements LoginService {
             throw new QuibblerException(ErrorCodeEnum.REQUEST_PARAM_VALIDATION_FAILED);
         }
         password = DigestUtils.md5DigestAsHex((password + SALT).getBytes(StandardCharsets.UTF_8));
-        SysUser sysUser = sysUserService.getUserByUsernameAndPassword(account, password);
+        SysUser sysUser = sysUserService.getUserByAccountAndPassword(account, password);
         if (sysUser == null) {
             throw new QuibblerException(ErrorCodeEnum.RESOURCE_NOT_FOUND);
         }
@@ -54,6 +55,38 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public void logout(String token) {
         redisUtil.delete(REDIS_TOKEN + token);
+    }
+
+    @Override
+    public String register(SysUserRegisterParam param) {
+
+        String account = param.getAccount();
+        String password = param.getPassword();
+        String username = param.getUsername();
+        //TODO global handle param validation exception
+        if (StringUtils.isBlank(account) || StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+            throw new QuibblerException(ErrorCodeEnum.REQUEST_PARAM_VALIDATION_FAILED);
+        }
+        SysUser sysUser = sysUserService.getUserByAccount(account);
+        if (sysUser != null) {
+            throw new QuibblerException(ErrorCodeEnum.USER_EXIST);
+        }
+        SysUser newSysUser = new SysUser();
+        newSysUser.setAccount(account);
+        newSysUser.setPassword(DigestUtils.md5DigestAsHex((password+SALT).getBytes(StandardCharsets.UTF_8)));
+        newSysUser.setUsername(username);
+        newSysUser.setAvatar("/static/img/default-avatar.png");
+        //TODO create a base class to set default status
+        newSysUser.setAdmin(0); // 0 为false
+        newSysUser.setDeleted(0);// 0 为fasle
+        newSysUser.setSalt("");
+        newSysUser.setStatus("");
+        newSysUser.setEmail("");
+        sysUserService.save(newSysUser);
+
+        String token = jwtUtil.generateToken(sysUser.getId());
+        redisUtil.setEx(REDIS_TOKEN+token, JSON.toJSONString(newSysUser), 1, TimeUnit.DAYS);
+        return token;
     }
 
     @Override

@@ -9,7 +9,9 @@ import com.ps.quibbler.model.vo.LoginSysUserVO;
  */
 public interface SysUserService extends IService<SysUser> {
 
-    SysUser getUserByUsernameAndPassword(String account, String password);
+    SysUser getUserByAccountAndPassword(String account, String password);
 
     LoginSysUserVO getUserByToken(String token);
+
+    SysUser getUserByAccount(String account);
 }

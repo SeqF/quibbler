@@ -26,7 +26,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     RedisUtil redisUtil;
 
     @Override
-    public SysUser getUserByUsernameAndPassword(String account, String password) {
+    public SysUser getUserByAccountAndPassword(String account, String password) {
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUser::getAccount, account);
         queryWrapper.eq(SysUser::getPassword, password);
@@ -49,4 +49,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         loginSysUserVO.setAvatar(sysUser.getAvatar());
         return loginSysUserVO;
     }
+
+    @Override
+    public SysUser getUserByAccount(String account) {
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUser::getAccount, account);
+        queryWrapper.last("limit 1");
+        return baseMapper.selectOne(queryWrapper);
+    }
+
 }
