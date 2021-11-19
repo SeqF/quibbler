@@ -4,6 +4,7 @@ import com.ps.quibbler.base.BaseVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -26,4 +27,6 @@ public class ArticleVO extends BaseVO {
     private String author;
 
     private List<TagVO> tagList;
+
+    private LocalDateTime createdTime;
 }

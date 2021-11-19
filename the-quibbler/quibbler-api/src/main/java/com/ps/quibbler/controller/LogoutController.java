@@ -1,7 +1,7 @@
 package com.ps.quibbler.controller;
 
 import com.ps.quibbler.global.Result;
-import com.ps.quibbler.service.SysUserService;
+import com.ps.quibbler.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -10,20 +10,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-
 /**
- * @author ps
+ * @author paksu
  */
 @RestController
-@RequestMapping("user")
-public class SysUserController {
+@RequestMapping("logout")
+public class LogoutController {
 
     @Autowired
-    private SysUserService sysUserService;
+    private LoginService loginService;
 
-
-    @GetMapping("/currentUser")
-    public Result getCurrentUser(@RequestHeader(AUTHORIZATION) String token) {
-        return Result.successWithData(sysUserService.getUserByToken(token));
+    @GetMapping
+    public Result logout(@RequestHeader(AUTHORIZATION) String token) {
+        loginService.logout(token);
+        return Result.successWithMessage("LOGOUT_SUCCESS");
     }
 }

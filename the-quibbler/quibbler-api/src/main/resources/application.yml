@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8089
   servlet:
     application-display-name: quibbler
 
@@ -9,6 +9,21 @@ spring:
     username: xxx
     password: xxx
     driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    jedis:
+      pool:
+        min-idle: 5
+        max-active: 10
+        max-idle: 10
+        max-wait: 2000
+    database: 0
+    host: xxx
+    port: xxx
+    password: xxx
+    timeout: 1000
+  cache:
+    type: redis
+    cache-names: redisCache
 
 
 mybatis-plus:
@@ -26,3 +41,4 @@ jwt:
   expire: 604800
   secret: xxx
   prefix: Bearer
+

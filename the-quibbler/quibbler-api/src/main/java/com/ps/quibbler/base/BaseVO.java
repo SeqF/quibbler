@@ -11,6 +11,4 @@ import java.time.LocalDateTime;
 public class BaseVO {
 
     private String id;
-
-    private LocalDateTime createdTime;
 }

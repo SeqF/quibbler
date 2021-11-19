@@ -19,4 +19,14 @@ public class Constants {
      */
     public static final int PAGE_NUM = 1;
     public static final int PAGE_SIZE = 10;
+
+    /**
+     * Md5 salt
+     */
+    public static final String SALT = "ioi?@#";
+
+    /**
+     * Redis key
+     */
+    public static final String REDIS_TOKEN = "TOKEN_";
 }

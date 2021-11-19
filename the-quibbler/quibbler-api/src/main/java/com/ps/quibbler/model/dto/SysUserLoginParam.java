@@ -1,6 +1,5 @@
 package com.ps.quibbler.model.dto;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 
 /**
@@ -9,9 +8,7 @@ import lombok.Data;
 @Data
 public class SysUserLoginParam {
 
-    @NotNull
-    private String username;
+    private String account;
 
-    @NotNull
     private String password;
 }

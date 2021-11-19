@@ -23,7 +23,8 @@ public class ErrorResponse {
     private Map<String, Object> data = new HashMap<>();
 
     public ErrorResponse(BaseException exception, String path) {
-        this(exception.getErrorCode().getCode(), exception.getErrorCode().getStatus().value(), exception.getErrorCode().getMessage(), path, exception.getData());
+        this(exception.getErrorCode().getCode(), exception.getErrorCode().getStatus().value(),
+                exception.getErrorCode().getMessage(), path, exception.getData());
     }
 
     public ErrorResponse(int code, int status, String message, String path, Map<String, Object> data) {
