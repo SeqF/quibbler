@@ -1,9 +1,9 @@
 package com.ps.quibbler.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ps.quibbler.model.dao.mapper.TagMapper;
-import com.ps.quibbler.model.entity.Tag;
-import com.ps.quibbler.model.vo.TagVO;
+import com.ps.quibbler.pojo.dao.mapper.TagMapper;
+import com.ps.quibbler.pojo.po.Tag;
+import com.ps.quibbler.pojo.vo.TagVO;
 import com.ps.quibbler.service.TagService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

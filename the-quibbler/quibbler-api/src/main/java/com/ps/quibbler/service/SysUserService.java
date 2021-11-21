@@ -1,8 +1,8 @@
 package com.ps.quibbler.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ps.quibbler.model.entity.SysUser;
-import com.ps.quibbler.model.vo.LoginSysUserVO;
+import com.ps.quibbler.pojo.po.SysUser;
+import com.ps.quibbler.pojo.vo.LoginSysUserVO;
 
 /**
  * @author Paksu

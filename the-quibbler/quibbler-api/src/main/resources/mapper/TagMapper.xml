@@ -3,7 +3,7 @@
 <mapper namespace="com.ps.quibbler.model.dao.mapper.TagMapper">
 
 
-    <select id="getTagListByArticleId" resultType="com.ps.quibbler.model.entity.Tag">
+    <select id="getTagListByArticleId" resultType="com.ps.quibbler.pojo.po.Tag">
         SELECT id, tag_name AS tagName
         FROM t_tag
         WHERE id in

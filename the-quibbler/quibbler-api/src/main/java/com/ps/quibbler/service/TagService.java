@@ -1,8 +1,8 @@
 package com.ps.quibbler.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ps.quibbler.model.entity.Tag;
-import com.ps.quibbler.model.vo.TagVO;
+import com.ps.quibbler.pojo.po.Tag;
+import com.ps.quibbler.pojo.vo.TagVO;
 
 import java.util.List;
 

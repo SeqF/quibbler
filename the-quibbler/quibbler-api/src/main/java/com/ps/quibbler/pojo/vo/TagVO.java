@@ -1,4 +1,4 @@
-package com.ps.quibbler.model.vo;
+package com.ps.quibbler.pojo.vo;
 
 import com.ps.quibbler.base.BaseVO;
 import lombok.Data;

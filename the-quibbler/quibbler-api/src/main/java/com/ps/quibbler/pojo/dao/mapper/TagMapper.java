@@ -1,7 +1,7 @@
-package com.ps.quibbler.model.dao.mapper;
+package com.ps.quibbler.pojo.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ps.quibbler.model.entity.Tag;
+import com.ps.quibbler.pojo.po.Tag;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

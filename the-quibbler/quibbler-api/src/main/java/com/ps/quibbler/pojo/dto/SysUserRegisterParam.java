@@ -1,4 +1,4 @@
-package com.ps.quibbler.model.dto;
+package com.ps.quibbler.pojo.dto;
 
 import lombok.Data;
 

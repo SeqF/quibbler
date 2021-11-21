@@ -2,9 +2,9 @@ package com.ps.quibbler.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ps.quibbler.model.dto.PageParams;
-import com.ps.quibbler.model.entity.Article;
-import com.ps.quibbler.model.vo.ArticleVO;
+import com.ps.quibbler.pojo.dto.PageParams;
+import com.ps.quibbler.pojo.po.Article;
+import com.ps.quibbler.pojo.vo.ArticleVO;
 
 import java.util.List;
 

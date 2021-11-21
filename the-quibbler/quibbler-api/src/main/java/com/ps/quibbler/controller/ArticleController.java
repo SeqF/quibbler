@@ -1,7 +1,7 @@
 package com.ps.quibbler.controller;
 
 import com.ps.quibbler.global.Result;
-import com.ps.quibbler.model.dto.PageParams;
+import com.ps.quibbler.pojo.dto.PageParams;
 import com.ps.quibbler.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -4,13 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ps.quibbler.enums.ErrorCodeEnum;
 import com.ps.quibbler.exception.QuibblerException;
-import com.ps.quibbler.model.dao.mapper.SysUserMapper;
-import com.ps.quibbler.model.entity.SysUser;
-import com.ps.quibbler.model.vo.LoginSysUserVO;
+import com.ps.quibbler.pojo.dao.mapper.SysUserMapper;
+import com.ps.quibbler.pojo.po.SysUser;
+import com.ps.quibbler.pojo.vo.LoginSysUserVO;
 import com.ps.quibbler.service.LoginService;
 import com.ps.quibbler.service.SysUserService;
 import com.ps.quibbler.utils.RedisUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -3,9 +3,10 @@ package com.ps.quibbler.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.ps.quibbler.enums.ErrorCodeEnum;
 import com.ps.quibbler.exception.QuibblerException;
-import com.ps.quibbler.model.dto.SysUserLoginParam;
-import com.ps.quibbler.model.dto.SysUserRegisterParam;
-import com.ps.quibbler.model.entity.SysUser;
+import com.ps.quibbler.pojo.bo.AccessToken;
+import com.ps.quibbler.pojo.dto.SysUserLoginParam;
+import com.ps.quibbler.pojo.dto.SysUserRegisterParam;
+import com.ps.quibbler.pojo.po.SysUser;
 import com.ps.quibbler.service.LoginService;
 import com.ps.quibbler.service.SysUserService;
 import com.ps.quibbler.utils.JwtUtil;
@@ -36,7 +37,7 @@ public class LoginServiceImpl implements LoginService {
     private JwtUtil jwtUtil;
 
     @Override
-    public String login(SysUserLoginParam param) {
+    public AccessToken login(SysUserLoginParam param) {
         String account = param.getAccount();
         String password = param.getPassword();
         if (StringUtils.isBlank(account) || StringUtils.isBlank(password)) {
@@ -47,9 +48,9 @@ public class LoginServiceImpl implements LoginService {
         if (sysUser == null) {
             throw new QuibblerException(ErrorCodeEnum.RESOURCE_NOT_FOUND);
         }
-        String token = jwtUtil.generateToken(sysUser.getId());
-        redisUtil.setEx(REDIS_TOKEN + token, JSON.toJSONString(sysUser), 1, TimeUnit.DAYS);
-        return token;
+        AccessToken accessToken = jwtUtil.createToken(sysUser.getId());
+        redisUtil.setEx(REDIS_TOKEN + accessToken.getToken(), JSON.toJSONString(sysUser), 1, TimeUnit.DAYS);
+        return accessToken;
     }
 
     @Override
@@ -58,7 +59,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public String register(SysUserRegisterParam param) {
+    public AccessToken register(SysUserRegisterParam param) {
 
         String account = param.getAccount();
         String password = param.getPassword();
@@ -73,36 +74,39 @@ public class LoginServiceImpl implements LoginService {
         }
         SysUser newSysUser = new SysUser();
         newSysUser.setAccount(account);
-        newSysUser.setPassword(DigestUtils.md5DigestAsHex((password+SALT).getBytes(StandardCharsets.UTF_8)));
+        newSysUser.setPassword(DigestUtils.md5DigestAsHex((password + SALT).getBytes(StandardCharsets.UTF_8)));
         newSysUser.setUsername(username);
         newSysUser.setAvatar("/static/img/default-avatar.png");
         //TODO create a base class to set default status
         newSysUser.setAdmin(0); // 0 为false
-        newSysUser.setDeleted(0);// 0 为fasle
+        newSysUser.setDeleted(0);// 0 为false
         newSysUser.setSalt("");
         newSysUser.setStatus("");
         newSysUser.setEmail("");
         sysUserService.save(newSysUser);
 
-        String token = jwtUtil.generateToken(sysUser.getId());
-        redisUtil.setEx(REDIS_TOKEN+token, JSON.toJSONString(newSysUser), 1, TimeUnit.DAYS);
-        return token;
+        AccessToken accessToken = jwtUtil.createToken(newSysUser.getId());
+        redisUtil.setEx(REDIS_TOKEN + accessToken.getToken(), JSON.toJSONString(newSysUser), 1, TimeUnit.DAYS);
+        return accessToken;
     }
 
     @Override
     public SysUser checkToken(String token) {
+        SysUser sysUser = null;
         if (StringUtils.isBlank(token)) {
             return null;
         }
-        // TODO check token expired?
-        Claims claim = jwtUtil.getClaimByToken(token);
-        if (claim == null) {
+
+        String username = jwtUtil.getSubjectFromToken(token);
+        if (jwtUtil.validateToken(token, username)) {
             return null;
         }
+
         String userJson = redisUtil.get(REDIS_TOKEN + token);
         if (StringUtils.isBlank(userJson)) {
             return null;
         }
-        return JSON.parseObject(userJson, SysUser.class);
+        sysUser = JSON.parseObject(userJson, SysUser.class);
+        return sysUser;
     }
 }

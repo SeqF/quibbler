@@ -1,4 +1,4 @@
-package com.ps.quibbler.model.entity;
+package com.ps.quibbler.pojo.po;
 
 import com.ps.quibbler.base.BaseEntity;
 import lombok.Data;
