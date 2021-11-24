@@ -97,7 +97,7 @@ public class JwtUtil {
      */
     public boolean validateToken(String token, String username) {
         Claims claims = getClaimsFromToken(token);
-        return claims.getSubject().equals(username) && !isTokenExpired(claims);
+        return claims != null && claims.getSubject().equals(username) && !isTokenExpired(claims);
     }
 
     /**
@@ -112,14 +112,14 @@ public class JwtUtil {
         Claims claims = getClaimsFromToken(token);
 
         // 如果token在30分钟之内刷新过，则返回原token，否则返回新的token
-        if (tokenRefreshJustBefore(claims)) {
+        if (claims != null && tokenRefreshJustBefore(claims)) {
             return AccessToken.builder()
                     .loginAccount(claims.getSubject())
                     .token(oldToken)
                     .expiration(claims.getExpiration())
                     .build();
         } else {
-            return createToken(claims.getSubject());
+            return createToken(claims == null ? null : claims.getSubject());
         }
     }
 
@@ -131,11 +131,7 @@ public class JwtUtil {
      */
     public String getSubjectFromToken(String token) {
         Claims claims = getClaimsFromToken(token);
-        if (claims != null) {
-            return claims.getSubject();
-        } else {
-            return null;
-        }
+        return claims == null ? null : claims.getSubject();
     }
 
     /**
@@ -172,7 +168,8 @@ public class JwtUtil {
         Date refreshDate = new Date();
 
         return refreshDate.after(claims.getExpiration())
-                && refreshDate.before(DateUtils.addMilliseconds(refreshDate, jwtProperties.getExpirationTime().intValue()));
+                && refreshDate.before(DateUtils.addMilliseconds(refreshDate,
+                jwtProperties.getExpirationTime().intValue()));
     }
 
 

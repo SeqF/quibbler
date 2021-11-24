@@ -48,7 +48,7 @@ public class LoginServiceImpl implements LoginService {
         if (sysUser == null) {
             throw new QuibblerException(ErrorCodeEnum.RESOURCE_NOT_FOUND);
         }
-        AccessToken accessToken = jwtUtil.createToken(sysUser.getId());
+        AccessToken accessToken = jwtUtil.createToken(sysUser.getAccount());
         redisUtil.setEx(REDIS_TOKEN + accessToken.getToken(), JSON.toJSONString(sysUser), 1, TimeUnit.DAYS);
         return accessToken;
     }
@@ -92,7 +92,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public SysUser checkToken(String token) {
-        SysUser sysUser = null;
+        SysUser sysUser;
         if (StringUtils.isBlank(token)) {
             return null;
         }
