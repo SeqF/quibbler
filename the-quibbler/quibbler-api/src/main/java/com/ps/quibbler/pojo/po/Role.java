@@ -5,12 +5,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @author paksu
+ * @author ps
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class Role extends BaseEntity {
 
     private String name;
     private String code;
-    private Integer status;
+    private String status;
 }

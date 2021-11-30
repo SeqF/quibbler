@@ -3,6 +3,9 @@ package com.ps.quibbler.security;
 import com.ps.quibbler.security.handler.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -13,7 +16,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author paksu
@@ -41,6 +49,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
+    }
+
+    @Bean
+    public AccessDecisionVoter<FilterInvocation> accessDecisionProcessor() {
+        return new AccessDecisionProcessor();
+    }
+
+    @Bean
+    public AccessDecisionManager accessDecisionManager() {
+        // WebExpressionVoter 用于解析配置文件中的放行规则
+        // AccessDecisionProcessor 是自定义投票器，用于查看当前用户权限URI是否包含其请求的URI
+        List<AccessDecisionVoter<?>> accessDecisionVoters = Arrays.asList(new WebExpressionVoter(),
+                accessDecisionProcessor());
+        return new UnanimousBased(accessDecisionVoters);
     }
 
     @Override

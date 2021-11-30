@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ps.quibbler.enums.ErrorCodeEnum;
 import com.ps.quibbler.exception.QuibblerException;
 import com.ps.quibbler.pojo.dao.mapper.SysUserMapper;
+import com.ps.quibbler.pojo.po.Role;
 import com.ps.quibbler.pojo.po.SysUser;
 import com.ps.quibbler.pojo.vo.LoginSysUserVO;
 import com.ps.quibbler.service.LoginService;
@@ -12,6 +13,8 @@ import com.ps.quibbler.service.SysUserService;
 import com.ps.quibbler.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Paksu
@@ -55,6 +58,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         queryWrapper.eq(SysUser::getAccount, account);
         queryWrapper.last("limit 1");
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public List<Role> getRoleByUserId(String id) {
+        return baseMapper.getRoleByUserId(id);
     }
 
 }

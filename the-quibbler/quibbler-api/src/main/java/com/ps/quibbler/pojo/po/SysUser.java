@@ -3,6 +3,7 @@ package com.ps.quibbler.pojo.po;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ps.quibbler.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 /**
  * @author ps
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class SysUser extends BaseEntity {
 

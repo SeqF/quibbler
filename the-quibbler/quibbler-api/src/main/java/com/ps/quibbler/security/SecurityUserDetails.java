@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 /**
+ * 封装的Security User 信息
  * @author paksu
  */
 public class SecurityUserDetails implements UserDetails {
