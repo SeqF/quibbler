@@ -1,4 +1,4 @@
-package com.ps.quibbler.security;
+package com.ps.quibbler.security.voter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDecisionVoter;
@@ -17,7 +17,14 @@ public class AccessDecisionProcessor implements AccessDecisionVoter<FilterInvoca
 
 
     @Override
-    public int vote(Authentication authentication, FilterInvocation filterInvocation, Collection<ConfigAttribute> collection) {
+    public int vote(Authentication authentication, FilterInvocation object, Collection<ConfigAttribute> attributes) {
+
+        String requestUri = object.getRequest().getRequestURI();
+        String method = object.getRequest().getMethod();
+        log.debug("进入自定义鉴权投票器,URI:{} {}",  method, requestUri);
+
+        String key = requestUri + ":" + method;
+
         return 0;
     }
 

@@ -1,6 +1,7 @@
 package com.ps.quibbler.security;
 
 import com.ps.quibbler.security.handler.JwtAuthenticationFilter;
+import com.ps.quibbler.security.voter.AccessDecisionProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
