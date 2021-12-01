@@ -36,20 +36,4 @@ public class SecurityUserDetailsServiceImpl implements UserDetailsService {
         return new SecurityUserDetails(user.getId(), user.getAccount(), user.getPassword(),
                 roleList);
     }
-
-    /**
-     * get user role by id
-     *
-     * @param id user Id
-     * @return authorities
-     */
-    private List<GrantedAuthority> getGrantedAuthorities(String id) {
-
-        List<GrantedAuthority> authorities = new ArrayList<>();
-
-        List<Role> roleList = sysUserService.getRoleByUserId(id);
-        roleList.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getCode())));
-
-        return authorities;
-    }
 }

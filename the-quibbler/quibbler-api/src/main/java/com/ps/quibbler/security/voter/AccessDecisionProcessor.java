@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.FilterInvocation;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * 自定义投票 用于用户的鉴权
@@ -35,22 +36,28 @@ public class AccessDecisionProcessor implements AccessDecisionVoter<FilterInvoca
 
         String key = requestUri + ":" + method;
 
+        //获取在缓存中的系统权限
         Permission permission = JSON.parseObject(redisUtil.get(key), Permission.class);
         if (permission == null) {
             return ACCESS_ABSTAIN;
         }
+        //获取当前登录用户的权限
         SecurityUserDetails userDetails = (SecurityUserDetails) authentication.getPrincipal();
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-        return 0;
+        List<String> roles = userDetails.getRoles();
+        if (roles.contains(permission.getUri())) {
+            return ACCESS_GRANTED;
+        }else {
+            return ACCESS_DENIED;
+        }
     }
 
     @Override
     public boolean supports(ConfigAttribute configAttribute) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return false;
+        return true;
     }
 }

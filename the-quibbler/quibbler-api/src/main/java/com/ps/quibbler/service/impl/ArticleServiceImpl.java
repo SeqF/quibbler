@@ -15,7 +15,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,9 +29,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private TagService tagService;
     @Autowired
     private SysUserService sysUserService;
-
-    @Resource
-    ArticleMapper articleMapper;
 
     @Override
     public IPage<ArticleVO> getArticlePageList(PageParams pageParams) {

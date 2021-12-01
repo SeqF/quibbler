@@ -1,9 +1,11 @@
 package com.ps.quibbler.security;
 
+import com.ps.quibbler.security.handler.JwtAccessDenieHandler;
 import com.ps.quibbler.security.handler.JwtAuthenticationFilter;
 import com.ps.quibbler.security.voter.AccessDecisionProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.UnanimousBased;
@@ -39,6 +41,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
+    }
+
+    @Bean
+    public JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint(){
+        return new JwtAuthenticationEntryPoint();
+    }
+
+    @Bean
+    public JwtAccessDenieHandler jwtAccessDenieHandler() {
+        return new JwtAccessDenieHandler();
     }
 
     @Bean
@@ -81,6 +93,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors()
                 .and()
+                // disable CSRF
                 .csrf().disable()
                 // disable Session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -88,11 +101,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // configure authentication role
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers(URL_WHITELIST).permitAll()
                 .anyRequest().authenticated()
+                // use custom accessDecisionManager
+                .accessDecisionManager(accessDecisionManager())
+
+                .and()
+                .exceptionHandling()
+                // 添加权限不足异常处理器
+                .accessDeniedHandler(jwtAccessDenieHandler())
+                // 添加未登录异常处理器
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint())
 
                 // configure custom filter
                 .and()
+                // 添加自定义JWT过滤器
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }

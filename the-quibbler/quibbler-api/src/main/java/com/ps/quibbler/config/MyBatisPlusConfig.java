@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @author ps
  */
 @Configuration
-@MapperScan("com.ps.quibbler.model.dao.mapper")
+@MapperScan("com.ps.quibbler.pojo.dao.mapper")
 public class MyBatisPlusConfig {
 
     /**
