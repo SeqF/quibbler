@@ -1,9 +1,16 @@
 package com.ps.quibbler.security.voter;
 
+import com.alibaba.fastjson.JSON;
+import com.ps.quibbler.pojo.po.Permission;
+import com.ps.quibbler.security.SecurityUserDetails;
+import com.ps.quibbler.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.FilterInvocation;
 
 import java.util.Collection;
@@ -15,6 +22,9 @@ import java.util.Collection;
 @Slf4j
 public class AccessDecisionProcessor implements AccessDecisionVoter<FilterInvocation> {
 
+    @Autowired
+    RedisUtil redisUtil;
+
 
     @Override
     public int vote(Authentication authentication, FilterInvocation object, Collection<ConfigAttribute> attributes) {
@@ -25,6 +35,12 @@ public class AccessDecisionProcessor implements AccessDecisionVoter<FilterInvoca
 
         String key = requestUri + ":" + method;
 
+        Permission permission = JSON.parseObject(redisUtil.get(key), Permission.class);
+        if (permission == null) {
+            return ACCESS_ABSTAIN;
+        }
+        SecurityUserDetails userDetails = (SecurityUserDetails) authentication.getPrincipal();
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         return 0;
     }
 

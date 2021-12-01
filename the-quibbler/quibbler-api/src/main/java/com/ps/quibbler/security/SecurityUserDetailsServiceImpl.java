@@ -3,7 +3,6 @@ package com.ps.quibbler.security;
 import com.ps.quibbler.pojo.po.Role;
 import com.ps.quibbler.pojo.po.SysUser;
 import com.ps.quibbler.service.SysUserService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,8 +32,9 @@ public class SecurityUserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("用户不存在，登录失败");
         }
+        List<Role> roleList = sysUserService.getRoleByUserId(user.getId());
         return new SecurityUserDetails(user.getId(), user.getAccount(), user.getPassword(),
-                getGrantedAuthorities(user.getId()));
+                roleList);
     }
 
     /**
