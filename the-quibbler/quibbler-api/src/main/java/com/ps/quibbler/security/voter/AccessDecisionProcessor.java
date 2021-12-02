@@ -9,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.FilterInvocation;
+import sun.security.util.Cache;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,6 +25,8 @@ public class AccessDecisionProcessor implements AccessDecisionVoter<FilterInvoca
     @Autowired
     RedisUtil redisUtil;
 
+    @Autowired
+    private Cache caffeineCache;
 
     @Override
     public int vote(Authentication authentication, FilterInvocation object, Collection<ConfigAttribute> attributes) {

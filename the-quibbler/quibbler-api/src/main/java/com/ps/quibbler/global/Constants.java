@@ -1,5 +1,7 @@
 package com.ps.quibbler.global;
 
+import com.sun.tools.sjavac.pubapi.PubVar;
+
 public class Constants {
 
     /**
@@ -29,4 +31,10 @@ public class Constants {
      * Redis key
      */
     public static final String REDIS_TOKEN = "TOKEN_";
+
+    /**
+     * Cache Key
+     */
+    public static final String CACHE_USER = "USER";
+    public static final String CACHE_PERMISSION = "PERMISSION";
 }
