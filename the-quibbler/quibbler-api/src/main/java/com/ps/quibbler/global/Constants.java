@@ -1,8 +1,13 @@
 package com.ps.quibbler.global;
 
-import com.sun.tools.sjavac.pubapi.PubVar;
-
+/**
+ * @author ps
+ */
 public class Constants {
+
+    private Constants(){
+        throw new IllegalStateException("Constants class");
+    }
 
     /**
      * Article Constants

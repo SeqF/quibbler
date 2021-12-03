@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Paksu
+ * @author ps
  */
 @Data
 public class ErrorResponse {
