@@ -1,10 +1,8 @@
 package com.ps.quibbler.global;
 
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
+import com.ps.quibbler.cache.Cache;
 import com.ps.quibbler.pojo.po.Permission;
 import com.ps.quibbler.service.PermissionService;
-import com.ps.quibbler.service.impl.PermissionServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,7 +34,7 @@ public class InitProcessor {
         //todo set permission in cache when app is launch
         List<Permission> permissionList = permissionService.list();
         permissionList.forEach(permission -> {
-            caffeineCache.put(CACHE_PERMISSION, permission.getUri() + ":" + permission.getMethod());
+            caffeineCache.put(CACHE_PERMISSION, permission.getUri() + ":" + permission.getMethod(), permission);
         });
 
     }

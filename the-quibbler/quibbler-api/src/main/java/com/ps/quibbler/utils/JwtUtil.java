@@ -2,26 +2,17 @@ package com.ps.quibbler.utils;
 
 import com.ps.quibbler.pojo.bo.AccessToken;
 import com.ps.quibbler.properties.JwtProperties;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.temporal.TemporalUnit;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author paksu
