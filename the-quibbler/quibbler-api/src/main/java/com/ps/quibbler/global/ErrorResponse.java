@@ -19,7 +19,7 @@ public class ErrorResponse {
     private int status;
     private String message;
     private String path;
-    private String time;
+    private LocalDateTime time;
     private Map<String, Object> data = new HashMap<>();
 
     public ErrorResponse(BaseException exception, String path) {
@@ -32,7 +32,7 @@ public class ErrorResponse {
         this.status = status;
         this.message = message;
         this.path = path;
-        this.time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.time = LocalDateTime.now();
         if (!ObjectUtils.isEmpty(data)) {
             this.data.putAll(data);
         }

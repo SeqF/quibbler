@@ -21,7 +21,7 @@ public class CaffeineCache implements Cache{
     public <T> T get(String cacheName, String key, Class<T> clazz) {
         log.debug("{} get -> Cache name:{},Key:{},Class type:{}", this.getClass().getName(), cacheName, key,
                 clazz.getName());
-        return Objects.requireNonNull(caffeineCacheManager.getCache(cacheName).get(key, clazz));
+        return Objects.requireNonNull(caffeineCacheManager.getCache(cacheName)).get(key, clazz);
     }
 
     @Override

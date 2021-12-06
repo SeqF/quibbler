@@ -35,7 +35,8 @@ import java.util.List;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] URL_WHITELIST = {
-            "/login"
+            "/login",
+            "/test"
     };
 
     @Bean
