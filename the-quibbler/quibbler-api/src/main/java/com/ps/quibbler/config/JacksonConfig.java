@@ -2,10 +2,15 @@ package com.ps.quibbler.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -18,6 +23,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -62,13 +70,7 @@ public class JacksonConfig {
 
     public ObjectMapper jacksonObjectMapper() {
 
-        JsonFactory factory = JsonFactory.builder()
-                // 允许出现特殊字符和转义符
-                .enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS)
-                // 允许出现单引号
-                .enable(JsonReadFeature.ALLOW_SINGLE_QUOTES).build();
-
-//        ObjectMapper objectMapper = builder.createXmlMapper(false).build();
+        JsonMapper.Builder builder = JsonMapper.builder();
 
         // 设置mapper序列化规则
         // Include.Include.ALWAYS 默认
@@ -76,7 +78,26 @@ public class JacksonConfig {
         // Include.NON_EMPTY 属性为 空（""） 或者为 NULL 都不序列化，则返回的json是没有这个字段的
         // Include.NON_NULL 属性为NULL 不序列化
         builder.serializationInclusion(JsonInclude.Include.ALWAYS);
+        // 允许转义字符
+        builder.configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS, true);
+        // 允许单引号
+        builder.configure(JsonReadFeature.ALLOW_SINGLE_QUOTES, true);
 
-        return builder.build();
+        JsonMapper jsonMapper = builder.build();
+        /**
+         * 添加对数据类型的处理
+         */
+//        SimpleModule simpleModule = new SimpleModule();
+//        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
+//        simpleModule.addSerializer(BigDecimal.class, new JsonSerializer<BigDecimal>() {
+//
+//            @Override
+//            public void serialize(BigDecimal bigDecimal, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+//                DecimalFormat format = new DecimalFormat("#.##");
+//                jsonGenerator.writeString(format.format(bigDecimal));
+//            }
+//        });
+//        jsonMapper.registerModule(simpleModule);
+        return jsonMapper;
     }
 }
