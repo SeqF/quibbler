@@ -6,10 +6,12 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author ps
  */
+@Configuration
 public class RabbitmqConfig {
 
     @Autowired
@@ -20,6 +22,10 @@ public class RabbitmqConfig {
         return new Queue("quibblerMQ", true);
     }
 
+    /**
+     * 传入自定义的json序列化
+     * @return
+     */
     @Bean
     public MessageConverter jackson2JsonMessageConverter() {
         return new Jackson2JsonMessageConverter(jacksonObjectMapper);

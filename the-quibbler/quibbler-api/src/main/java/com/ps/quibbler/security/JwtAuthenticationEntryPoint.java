@@ -23,7 +23,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException e) throws IOException, ServletException {
 
-        String msg = CharSequenceUtil.format("请求访问：{}，认证失败，无法访问系统资源", request.getRequestURI());
+        String msg = CharSequenceUtil.format("请求访问：'{}'，认证失败，无法访问系统资源", request.getRequestURI());
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
