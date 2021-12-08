@@ -1,8 +1,8 @@
 package com.ps.quibbler.security.handler;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import com.alibaba.fastjson.JSON;
 import com.ps.quibbler.global.Result;
+import com.ps.quibbler.utils.JacksonUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -27,7 +27,7 @@ public class JwtAccessDenieHandler implements AccessDeniedHandler {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.getWriter().write(JSON.toJSONString(Result.errorWithMessage(msg)));
+        response.getWriter().write(JacksonUtil.toJSONString(Result.errorWithMessage(msg)));
         response.getWriter().flush();
     }
 }

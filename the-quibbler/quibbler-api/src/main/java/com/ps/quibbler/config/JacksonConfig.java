@@ -18,9 +18,11 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.io.IOException;
@@ -68,6 +70,9 @@ public class JacksonConfig {
         };
     }
 
+    @Bean
+    @Primary
+    @ConditionalOnMissingBean(ObjectMapper.class)
     public ObjectMapper jacksonObjectMapper() {
 
         JsonMapper.Builder builder = JsonMapper.builder();
@@ -92,7 +97,8 @@ public class JacksonConfig {
 //        simpleModule.addSerializer(BigDecimal.class, new JsonSerializer<BigDecimal>() {
 //
 //            @Override
-//            public void serialize(BigDecimal bigDecimal, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+//            public void serialize(BigDecimal bigDecimal, JsonGenerator jsonGenerator, SerializerProvider
+//            serializerProvider) throws IOException {
 //                DecimalFormat format = new DecimalFormat("#.##");
 //                jsonGenerator.writeString(format.format(bigDecimal));
 //            }

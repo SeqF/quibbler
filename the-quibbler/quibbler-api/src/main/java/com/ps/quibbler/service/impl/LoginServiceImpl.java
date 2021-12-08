@@ -1,6 +1,5 @@
 package com.ps.quibbler.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.ps.quibbler.enums.ErrorCodeEnum;
 import com.ps.quibbler.exception.QuibblerException;
 import com.ps.quibbler.pojo.bo.AccessToken;
@@ -9,9 +8,9 @@ import com.ps.quibbler.pojo.dto.SysUserRegisterParam;
 import com.ps.quibbler.pojo.po.SysUser;
 import com.ps.quibbler.service.LoginService;
 import com.ps.quibbler.service.SysUserService;
+import com.ps.quibbler.utils.JacksonUtil;
 import com.ps.quibbler.utils.JwtUtil;
 import com.ps.quibbler.utils.RedisUtil;
-import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +48,7 @@ public class LoginServiceImpl implements LoginService {
             throw new QuibblerException(ErrorCodeEnum.RESOURCE_NOT_FOUND);
         }
         AccessToken accessToken = jwtUtil.createToken(sysUser.getAccount());
-        redisUtil.setEx(REDIS_TOKEN + accessToken.getToken(), JSON.toJSONString(sysUser), 1, TimeUnit.DAYS);
+        redisUtil.setEx(REDIS_TOKEN + accessToken.getToken(), JacksonUtil.toJSONString(sysUser), 1, TimeUnit.DAYS);
         return accessToken;
     }
 
@@ -86,7 +85,7 @@ public class LoginServiceImpl implements LoginService {
         sysUserService.save(newSysUser);
 
         AccessToken accessToken = jwtUtil.createToken(newSysUser.getId());
-        redisUtil.setEx(REDIS_TOKEN + accessToken.getToken(), JSON.toJSONString(newSysUser), 1, TimeUnit.DAYS);
+        redisUtil.setEx(REDIS_TOKEN + accessToken.getToken(), JacksonUtil.toJSONString(newSysUser), 1, TimeUnit.DAYS);
         return accessToken;
     }
 
@@ -106,7 +105,7 @@ public class LoginServiceImpl implements LoginService {
         if (StringUtils.isBlank(userJson)) {
             return null;
         }
-        sysUser = JSON.parseObject(userJson, SysUser.class);
+        sysUser = JacksonUtil.parseObject(userJson, SysUser.class);
         return sysUser;
     }
 }

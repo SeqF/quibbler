@@ -1,8 +1,8 @@
 package com.ps.quibbler.security.handler;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import com.alibaba.fastjson.JSON;
 import com.ps.quibbler.properties.JwtProperties;
+import com.ps.quibbler.utils.JacksonUtil;
 import com.ps.quibbler.utils.JwtUtil;
 import com.ps.quibbler.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (CharSequenceUtil.isNotBlank(loginAccount) && SecurityContextHolder.getContext().getAuthentication()==null) {
 
                 //todo put user details into redis?
-                UserDetails userDetails = JSON.parseObject(redisUtil.get(REDIS_TOKEN + token), UserDetails.class);
+                UserDetails userDetails = JacksonUtil.parseObject(redisUtil.get(REDIS_TOKEN + token), UserDetails.class);
 
                 //拿到用户信息后进行token校验
                 if (userDetails != null && jwtUtil.validateToken(token, userDetails)) {

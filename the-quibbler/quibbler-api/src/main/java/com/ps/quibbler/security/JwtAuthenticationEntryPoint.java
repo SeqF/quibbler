@@ -1,8 +1,8 @@
 package com.ps.quibbler.security;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import com.alibaba.fastjson.JSON;
 import com.ps.quibbler.global.Result;
+import com.ps.quibbler.utils.JacksonUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -27,7 +27,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.getWriter().write(JSON.toJSONString(Result.errorWithMessage(msg)));
+        response.getWriter().write(JacksonUtil.toJSONString(Result.errorWithMessage(msg)));
         response.getWriter().flush();
     }
 }
