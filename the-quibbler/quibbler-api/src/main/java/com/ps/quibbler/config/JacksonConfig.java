@@ -1,16 +1,9 @@
 package com.ps.quibbler.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -19,15 +12,10 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -41,41 +29,16 @@ import java.util.TimeZone;
  */
 @Configuration
 public class JacksonConfig {
-
-    @Bean
-    public Jackson2ObjectMapperBuilderCustomizer customizer() {
-        return builder -> {
-            builder.locale(Locale.CHINA);
-            builder.timeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
-            builder.simpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-            JavaTimeModule javaTimeModule = new JavaTimeModule();
-
-            javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(
-                    "yyyy-MM-dd HH:mm:ss")));
-            javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy" +
-                    "-MM" +
-                    "-dd")));
-            javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern("HH:mm" +
-                    ":ss")));
-
-            javaTimeModule.addDeserializer(LocalDateTime.class,
-                    new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(
-                    "yyyy-MM-dd")));
-            javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern("HH" +
-                    ":mm:ss")));
-
-            builder.modules(javaTimeModule);
-        };
-    }
-
+    
     @Bean
     @Primary
     @ConditionalOnMissingBean(ObjectMapper.class)
     public ObjectMapper jacksonObjectMapper() {
 
         JsonMapper.Builder builder = JsonMapper.builder();
+
+        builder.defaultLocale(Locale.CHINA);
+        builder.defaultTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
 
         // 设置mapper序列化规则
         // Include.Include.ALWAYS 默认
@@ -103,7 +66,24 @@ public class JacksonConfig {
 //                jsonGenerator.writeString(format.format(bigDecimal));
 //            }
 //        });
-//        jsonMapper.registerModule(simpleModule);
+
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+
+        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(
+                "yyyy-MM-dd HH:mm:ss")));
+        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy" +
+                "-MM" +
+                "-dd")));
+        javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern("HH:mm" +
+                ":ss")));
+
+        javaTimeModule.addDeserializer(LocalDateTime.class,
+                new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(
+                "yyyy-MM-dd")));
+        javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern("HH" +
+                ":mm:ss")));
+        jsonMapper.registerModule(javaTimeModule);
         return jsonMapper;
     }
 }

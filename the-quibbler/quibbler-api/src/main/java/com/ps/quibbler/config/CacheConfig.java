@@ -3,7 +3,6 @@ package com.ps.quibbler.config;
 import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
