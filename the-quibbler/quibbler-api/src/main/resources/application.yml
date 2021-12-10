@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://xxx/quibbler?serverTimezone=GMT&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://xxx/xxx?serverTimezone=GMT&useUnicode=true&characterEncoding=utf8
     username: xxx
     password: xxx
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -24,7 +24,22 @@ spring:
   cache:
     type: redis
     cache-names: redisCache
-
+  rabbitmq:
+      address: xx
+      host: xxx
+      username: xxx
+      password: xxx
+      virtual-host: /
+      #手动确认消息
+      listener:
+        simple:
+          acknowledge-mode: manual
+      # MQ消息确认机制
+      publisher-confirm-type: correlated
+      # 打开消息返回
+      publisher-returns: true
+      template:
+        mandatory: true
 
 mybatis-plus:
   configuration:

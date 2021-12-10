@@ -22,9 +22,8 @@ public class TestController {
     private Producer producer;
     @GetMapping
     public Result test() {
-//        producer.send();
-        throw new QuibblerException(ErrorCodeEnum.TOKEN_VALIDATION_FAILED);
-//        return Result.successWithData(new SysUser());
+        producer.send();
+        return Result.successWithData("消息发送成功");
     }
 
 }
