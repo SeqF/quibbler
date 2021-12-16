@@ -1,2 +1,2 @@
-# the-quibbler-V2
+# the-quibbler
 personal site
