@@ -25,8 +25,8 @@ spring:
     type: redis
     cache-names: redisCache
   rabbitmq:
-      address: xx
       host: xxx
+      port: xxx
       username: xxx
       password: xxx
       virtual-host: /
