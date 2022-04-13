@@ -1,10 +1,8 @@
 package com.ps.quibbler.mq;
 
-import com.ps.quibbler.pojo.po.SysUser;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
@@ -19,7 +17,7 @@ import static com.ps.quibbler.global.Constants.*;
 @Component
 //@RabbitListener(queues = Producer.QUEUE_NAME)
 @Slf4j
-public class Consumer {
+public class RabbitConsumer {
 
     /**
      * 测试队列接收消息

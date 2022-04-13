@@ -1,16 +1,16 @@
 package com.ps.quibbler.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.ps.quibbler.global.Constants.*;
 
@@ -30,6 +30,7 @@ public class RabbitmqConfig {
 
     /**
      * 创建 fanout 交换机并进行队列绑定
+     *
      * @return
      */
     @Bean
@@ -84,6 +85,56 @@ public class RabbitmqConfig {
     @Bean
     public Binding directBinding2() {
         return BindingBuilder.bind(directQueue2()).to(directExchange()).with("mail");
+    }
+
+    /**
+     * 创建 topic 交换机
+     */
+    @Bean
+    public Queue topicQueue1() {
+        return new Queue("topicQueue1");
+    }
+
+    @Bean
+    public Queue topicQueue2() {
+        return new Queue("topicQueue2");
+    }
+
+    @Bean
+    public TopicExchange topicExchange() {
+        return new TopicExchange("topicExchange", false, false);
+    }
+
+    @Bean
+    public Binding topicBinding1() {
+        return BindingBuilder.bind(topicQueue1()).to(topicExchange()).with("sms.*");
+    }
+
+    @Bean
+    public Binding topicBinding2() {
+        return BindingBuilder.bind(topicQueue2()).to(topicExchange()).with("mail.#");
+    }
+
+    /**
+     * TTL 队列
+     */
+    @Bean
+    public Queue ttlQueue() {
+        HashMap<String, Object> arguments = new HashMap<>();
+        // 设置 30s 过期
+        arguments.put("x-message-ttl", 30000);
+        return new Queue("topicQueue1", false, false, false, arguments);
+    }
+
+    /**
+     * DLX 队列
+     */
+    @Bean
+    public Queue dlxQueue() {
+        Map<String, Object> arguments = new HashMap<>();
+        // 指定消息死亡后发送到 ExchangeName = "dlx.change" 的交换机
+        arguments.put("x-dead-letter-exchange", "dlx.exchange");
+        return new Queue("topicQueue1", false, false, false, arguments);
     }
 
     /**

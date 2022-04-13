@@ -1,11 +1,7 @@
 package com.ps.quibbler.controller;
 
-import com.ps.quibbler.enums.ErrorCodeEnum;
-import com.ps.quibbler.exception.QuibblerException;
 import com.ps.quibbler.global.Result;
-import com.ps.quibbler.mq.Consumer;
-import com.ps.quibbler.mq.Producer;
-import com.ps.quibbler.pojo.po.SysUser;
+import com.ps.quibbler.mq.RabbitProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @Autowired
-    private Producer producer;
+    private RabbitProducer rabbitProducer;
     @GetMapping
     public Result test() {
-        producer.send();
+        rabbitProducer.send();
         return Result.successWithData("消息发送成功");
     }
 
