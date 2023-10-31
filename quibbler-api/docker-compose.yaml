@@ -1,21 +1,15 @@
+version: "3.8"
+
 services:
-  db-mysql:
+  mysql:
     image: mysql:latest
-    container_name: mysql
+    container_name: quibbler_db
     restart: always
-    privileged: true
     volumes:
-      # files
-      - ～/Programming/docker/mysql/files/:/var/lib/mysql-files/
-      #      # conf
-      #      - /usr/local/docker/mysql/conf/:/etc/mysql/conf.d/
-      #      # data
-      #      - /usr/local/docker/mysql/data/:/var/lib/mysql/
-      #      # log
-      #      - /usr/local/docker/mysql/logs/:/var/log/
-      # init db by order
+      - ./sql/mysql-files:/var/lib/mysql-files:rw
+      - ./sql:/docker-entrypoint-initdb.d/
     environment:
-      MYSQL_USER: ps
-      MYSQL_PASSWORD: 123456
+      MYSQL_DATABASE: ps_quibbler
+      MYSQL_ROOT_PASSWORD: 123456
     ports:
-      - 13306:3306
+      - "3308:3306"
