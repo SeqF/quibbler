@@ -33,3 +33,9 @@ logs/
 
 ### Sonarlint ###
 /sonarlint/
+
+# OS
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db

@@ -1,15 +1,11 @@
 package com.ps.quibbler.service.impl;
 
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.convert.Converter;
-import cn.hutool.core.util.CharsetUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ps.quibbler.pojo.dao.mapper.ArticleMapper;
 import com.ps.quibbler.pojo.dto.PageParams;
-import com.ps.quibbler.pojo.po.Article;
 import com.ps.quibbler.pojo.vo.ArticleVO;
 import com.ps.quibbler.service.ArticleService;
 import com.ps.quibbler.service.SysUserService;
@@ -18,7 +14,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

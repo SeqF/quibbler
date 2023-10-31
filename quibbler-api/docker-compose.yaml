@@ -1,0 +1,21 @@
+services:
+  db-mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    privileged: true
+    volumes:
+      # files
+      - ～/Programming/docker/mysql/files/:/var/lib/mysql-files/
+      #      # conf
+      #      - /usr/local/docker/mysql/conf/:/etc/mysql/conf.d/
+      #      # data
+      #      - /usr/local/docker/mysql/data/:/var/lib/mysql/
+      #      # log
+      #      - /usr/local/docker/mysql/logs/:/var/log/
+      # init db by order
+    environment:
+      MYSQL_USER: ps
+      MYSQL_PASSWORD: 123456
+    ports:
+      - 13306:3306
