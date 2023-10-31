@@ -1,13 +1,13 @@
 server:
   port: 8089
-  servlet:
-    application-display-name: quibbler
 
 spring:
+  application:
+    name: quibbler
   datasource:
-    url: jdbc:mysql://xxx/quibbler?serverTimezone=GMT&useUnicode=true&characterEncoding=utf8
-    username: xxx
-    password: xxx
+    url: jdbc:mysql://127.0.0.1:3308/ps_quibbler
+    username: root
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     jedis:
@@ -62,4 +62,3 @@ jwt:
   expire: 604800
   secret: xxx
   prefix: Bearer
-
